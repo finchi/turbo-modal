@@ -30,9 +30,29 @@ const application = Application.start()
 application.register("turbo-modal", TurboModalController)
 ```
 
-Importing the package also registers `Turbo.StreamActions.redirect` as a side effect — no need to wire the stream action manually.
-
 Peer deps: `@hotwired/stimulus`, `@hotwired/turbo-rails`, `@coreui/coreui`.
+
+### Side effect: `Turbo.StreamActions.redirect`
+
+**Importing this package has a side effect.** Loading `@finchi/turbo-modal` (or any of its named exports) registers a custom Turbo stream action named `redirect` on the global `Turbo.StreamActions` object. The controller's `handleResponse` intercepts incoming `<turbo-stream action="redirect">` elements and turns them into `Turbo.visit(target)`, which is what dismisses the modal and navigates after a successful form submission.
+
+You do **not** need a separate `import "@finchi/turbo-modal/register"` call. The assignment runs at module-evaluation time, the first time anything imports the package:
+
+```js
+// node_modules/@finchi/turbo-modal/src/index.js
+import { Turbo } from "@hotwired/turbo-rails"
+
+Turbo.StreamActions.redirect = function() { /* ... */ }   // ← runs on first import
+
+export { TurboModalController } from "./turbo_modal_controller.js"
+```
+
+Notes:
+
+- The package shares a single `Turbo` instance with your app via the `@hotwired/turbo-rails` peer dependency. Two copies in the tree would silently break this — keep peer deps singular.
+- Bundlers preserve the assignment because the package does **not** declare `"sideEffects": false` in its `package.json`. Tree-shaking won't remove it.
+- The registration runs once per page load. Re-imports return the cached module without re-running top-level code.
+- If your app already defines its own `Turbo.StreamActions.redirect`, this package will overwrite it. Don't define a competing handler with the same name.
 
 ## Helpers
 
