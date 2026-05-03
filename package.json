@@ -1,0 +1,27 @@
+{
+  "name": "@finchi/turbo-modal",
+  "version": "1.0.0",
+  "description": "Stimulus controller and CoreUI/Turbo glue for the Turbo Modal pattern.",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finchi/turbo-modal.git"
+  },
+  "peerDependencies": {
+    "@coreui/coreui": "^5.6.1",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.23"
+  },
+  "license": "MIT",
+  "private": true
+}
