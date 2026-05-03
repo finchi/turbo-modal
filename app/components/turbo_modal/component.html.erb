@@ -1,0 +1,45 @@
+<% if inside_modal? %>
+  <%= helpers.turbo_frame_tag :turbo_modal do %>
+    <%= tag.div id:       "modal-container",
+                class:    "modal fade",
+                tabindex: "-1",
+                data:     {
+                  controller:                        "turbo-modal",
+                  turbo_modal_backdrop_value:        @modal_backdrop,
+                  turbo_modal_static_backdrop_value: @modal_static_backdrop,
+                  action:                            "turbo:before-stream-render@document->turbo-modal#handleResponse hidden.coreui.modal->turbo-modal#resetModalElement"
+                } do %>
+      <% if modal_html? %>
+        <%= modal_html %>
+      <% else %>
+        <%= helpers.tag.div class: modal_dialog_classes do %>
+          <div class="modal-content">
+            <div class="modal-header">
+              <% if modal_header? %>
+                <%= modal_header %>
+              <% else %>
+                <%= helpers.tag.send(@modal_header_tag, @title, class: "modal-title") %>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+              <% end %>
+            </div>
+            <div class="modal-body">
+              <%= content %>
+            </div>
+            <% if modal_footer? %>
+              <div class="modal-footer">
+                <%= modal_footer %>
+              </div>
+            <% end %>
+            <% if modal_form_footer? %>
+              <div class="modal-footer justify-content-center justify-content-sm-end">
+                <%= modal_form_footer %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= content %>
+<% end %>

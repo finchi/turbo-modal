@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-sm text-center text-sm-start order-last order-sm-first mb-3">
+    <button type="button" class="btn btn-outline-secondary" data-coreui-dismiss="modal"><%= cancel_link_text %></button>
+  </div>
+  <div class="col-sm-auto text-center oder-first order-sm-last mb-3">
+    <% if @submit_text.present? %>
+      <%= @form.button :submit, @submit_text, class: "btn btn-outline-success", form: @form.id %>
+    <% else %>
+      <%= @form.button :submit, class: "btn btn-outline-success", form: @form.id %>
+    <% end %>
+  </div>
+</div>
