@@ -24,12 +24,14 @@ export class TurboModalController extends Controller {
 
 
 		// hide modal when back button is pressed
-		window.addEventListener('popstate', () => {
+		this._onPopstate = () => {
 			if (this.#hasHistoryAdvanced()) this.hideModal()
-		})
+		}
+		window.addEventListener('popstate', this._onPopstate)
 	}
 
 	disconnect() {
+		window.removeEventListener('popstate', this._onPopstate)
 		this.modal.dispose()
 		document.body.classList.remove("modal-open")
 		document.body.style.removeProperty("overflow")

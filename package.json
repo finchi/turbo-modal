@@ -1,6 +1,6 @@
 {
   "name": "@finchi/turbo-modal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stimulus controller and CoreUI/Turbo glue for the Turbo Modal pattern.",
   "type": "module",
   "main": "src/index.js",
